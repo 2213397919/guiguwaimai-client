@@ -133,6 +133,9 @@
   import {mapState} from 'vuex';
   import ShopList from '../../components/ShopList/ShopList'
   export default {
+    mounted(){
+      this.$store.dispatch('getShops');
+    },
     computed: {
       ...mapState(['address'])
     },
