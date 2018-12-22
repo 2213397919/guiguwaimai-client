@@ -8,6 +8,10 @@
 <script>
   import Footer from './components/Footer/Footer'
 export default {
+
+  mounted(){
+    this.$store.dispatch('getAddress')
+  },
   components: {
     Footer
   }

@@ -12,15 +12,15 @@ import {
   RECEIVE_ADDRESS,
   RECEIVE_CATEGORYS,
   RECEIVE_SHOPS
-} from './mutation-type'
+ } from './mutation_type'
 
 export default {
 //  获取地理位置的异步请求
   async getAddress({commit,state}){
     //获取默认值
-    const {latitude,longitude} = state;
+    const {longitude,latitude} = state;
     //发送ajax
-    const result = await reqAddress({latitude,longitude});
+    const result = await reqAddress(longitude,latitude);
     //判断是否成功。
     if (result.code === 0){
       const address = result.data;
@@ -33,18 +33,18 @@ export default {
     const result = await reqCategorys();
     if (result.code === 0 ){
       const categorys = result.data;
-      commit(RECEIVE_CATEGORYS,categorys);
+      commit(RECEIVE_CATEGORYS,{categorys});
     }
   },
   //异步获取商家列表
   async getShops({commit,state}){
     //获取默认值
-    const {latitude,longitude} = state;
+    const {longitude,latitude} = state;
     //发送ajax
-    const result = await reqShops(latitude,longitude);
+    const result = await reqShops(longitude,latitude);
     if (result.code === 0 ){
       const shops = result.data;
-      commit(RECEIVE_SHOPS,shops);
+      commit(RECEIVE_SHOPS,{shops});
     }
-  }
+  },
 }

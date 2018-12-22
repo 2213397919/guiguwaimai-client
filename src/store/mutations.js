@@ -4,16 +4,17 @@
 import {
   RECEIVE_ADDRESS,
   RECEIVE_CATEGORYS,
-  RECEIVE_SHOPS} from './mutation-type'
+  RECEIVE_SHOPS
+   } from './mutation_type'
 export default {
   //地址信息
   [RECEIVE_ADDRESS](state,{address}){
     state.address = address;
   },
   [RECEIVE_CATEGORYS](state,{categorys}){
-  state.address = categorys;
+  state.categorys = categorys;
   },
   [RECEIVE_SHOPS](state,{shops}){
-    state.address = shops;
+    state.shops = shops;
   }
 }
