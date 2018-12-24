@@ -14,7 +14,7 @@
           <p class="user-info-top" v-if="!user.phone">
             {{user.name?user.name:'登录/注册'}}
           </p>
-          <p v-if="!user._id">
+          <p v-if="!user.name">
             <span class="user-icon">
               <i class="iconfont icon-shouji icon-mobile"></i>
             </span>
