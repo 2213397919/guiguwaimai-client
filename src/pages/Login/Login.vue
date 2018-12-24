@@ -20,7 +20,7 @@
               </button>
             </section>
             <section class="login_verification">
-              <input type="tel" maxlength="8" placeholder="验证码">
+              <input type="tel" maxlength="8" placeholder="验证码" v-model="code">
             </section>
             <section class="login_hint">
               温馨提示：未注册硅谷外卖帐号的手机号，登录时将自动注册，且代表已同意
@@ -30,22 +30,22 @@
           <div :class="{on: !loginWay}">
             <section>
               <section class="login_message">
-                <input type="tel" maxlength="11" placeholder="手机/邮箱/用户名">
+                <input type="tel" maxlength="11" placeholder="手机/邮箱/用户名" v-model="name">
               </section>
               <section class="login_verification">
-                <input :type="isToggle ? 'text':'password'" maxlength="8" placeholder="密码">
+                <input :type="isToggle ? 'text':'password'" maxlength="8" placeholder="密码" v-model="pwd">
                 <div class="switch_button off" @click="isToggle = !isToggle" :class="isToggle ? 'on':'off'">
                   <div class="switch_circle" :class="{right: isToggle}"></div>
                   <span class="switch_text" >{{isToggle ? '显示':''}}</span>
                 </div>
               </section>
               <section class="login_message">
-                <input type="text" maxlength="11" placeholder="验证码">
-                <img class="get_verification" src="./images/captcha.svg" alt="captcha">
+                <input type="text" maxlength="11" placeholder="验证码" v-model="captcha">
+                <img ref="captcha" class="get_verification" src="http://localhost:5000/captcha" alt="captcha" @click="updateCaptcha">
               </section>
             </section>
           </div>
-          <button class="login_submit">登录</button>
+          <button class="login_submit" @click="login">登录</button>
         </form>
         <a href="javascript:;" class="about_us">关于我们</a>
       </div>
@@ -57,13 +57,18 @@
 </template>
 
 <script>
+  import {Toast,MessageBox} from 'mint-ui'
+  import {reqPwdLogin,reqSendCode,reqSmsLogin} from '../../api/index'
   export default {
-    name: 'Login',
     data(){
       return{
         //判断登录方式。
-        loginWay: true,// true: 短信登录, false: 密码登录
+        loginWay: false,// true: 短信登录, false: 密码登录
         phone:'',//验证手机号
+        code:'',//验证码
+        name:'',//用户名
+        pwd: '',//密码
+        captcha:'',//图形验证码
         time: 0,//计算剩余时间
         isToggle: false //密码切换显与隐
       }
@@ -74,7 +79,7 @@
       }
     },
     methods: {
-      sendCode () {
+      async sendCode () {
         // 显示最大的计时时间
         this.time = 30
         // 启动循环计时器, 每隔1s减1
@@ -85,6 +90,55 @@
             clearInterval(intervalId)
           }
         }, 1000)
+      //  发送验证码
+        const result = await reqSendCode(this.phone);
+        if (result.code === 0){
+          //短信发送成功
+          Toast('短信发送成功')
+        }else {
+          //验证码短信发送失败。
+          // 停止计时
+          this.computeTime = 0
+          MessageBox.alert(result.msg)
+        }
+      },
+      updateCaptcha(){
+        this.$refs.captcha.src = 'http://localhost:5000/captcha?time'+ Date.now();
+      },
+    //  请求登录
+      async login(){
+        const {phone,name,pwd,code,captcha,loginWay} = this;
+        let result;
+      //短信登录
+        if (loginWay){
+          if (!isRightPhone){
+            return MessageBox.alert("请输入手机号或者邮箱");
+          } else if (!/^\d{6}$/.test(code)){
+            return MessageBox.alert("请输入验证码");
+          }
+          //发送短信登录
+          result = await reqSmsLogin(phone,code)
+        }else {
+          if (!name.trim()){
+            return MessageBox.alert("请输入用户名");
+          } else if (!pwd.trim()){
+            return MessageBox.alert("请输入密码");
+          }else if (captcha.length !== 4){
+            return MessageBox.alert("请输入图像验证码");
+          }
+          //发送密码登录
+          result = await reqPwdLogin({name,pwd,captcha});
+        }
+        if (result.code === 0){
+          const user = result.data;
+          console.log(user);
+          //保存到state中
+          this.$store.dispatch('saveUser',user);
+        //  跳转到profile
+          this.$router.replace('/profile');
+        }else {
+          return MessageBox.alert(result.msg);
+        }
       }
     }
   }

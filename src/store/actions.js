@@ -11,7 +11,8 @@ import {
 import {
   RECEIVE_ADDRESS,
   RECEIVE_CATEGORYS,
-  RECEIVE_SHOPS
+  RECEIVE_SHOPS,
+  RECEIVE_USER
  } from './mutation_type'
 
 export default {
@@ -47,4 +48,8 @@ export default {
       commit(RECEIVE_SHOPS,{shops});
     }
   },
+//  同步保存到user
+  saveUser({commit},user){
+    commit(RECEIVE_USER,{user});
+  }
 }
