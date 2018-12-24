@@ -96,15 +96,26 @@
         </div>
       </a>
     </section>
+    <mt-button type="danger" style="width: 100%" @click="logout" v-if="user._id">退出登录</mt-button>
   </section>
 </template>
 
 <script>
+  import {MessageBox} from 'mint-ui'
   import {mapState} from 'vuex'
   export default {
   computed: {
     ...mapState(['user'])
-  }
+  },
+    methods: {
+    logout(){
+      MessageBox.alert("确认退出").then(success=>{
+        this.$store.dispatch('logout')
+      }).catch(err=>{
+
+      })
+    }
+    }
   }
 </script>
 

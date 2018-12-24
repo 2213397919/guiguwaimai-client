@@ -5,7 +5,8 @@ import {
   RECEIVE_ADDRESS,
   RECEIVE_CATEGORYS,
   RECEIVE_SHOPS,
-  RECEIVE_USER
+  RECEIVE_USER,
+  RESET_USER
    } from './mutation_type'
 export default {
   //地址信息
@@ -21,5 +22,9 @@ export default {
 //  保存用户个人信息
   [RECEIVE_USER](state,{user}){
     state.user=user;
+  },
+//  退出登录，清除用户信息
+  [RESET_USER](state){
+    state.user='';
   }
 }

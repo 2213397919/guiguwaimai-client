@@ -14,7 +14,8 @@ import {
   RECEIVE_ADDRESS,
   RECEIVE_CATEGORYS,
   RECEIVE_SHOPS,
-  RECEIVE_USER
+  RECEIVE_USER,
+  RESET_USER
  } from './mutation_type'
 
 export default {
@@ -63,4 +64,11 @@ export default {
       commit(RECEIVE_USER,{user})
     }
   },
+//  登录退出，清空用户记录
+  async logout({commit}){
+    const result =await reqLogOut();
+    if (result.code === 0){
+      commit(RESET_USER)
+    }
+  }
 }
