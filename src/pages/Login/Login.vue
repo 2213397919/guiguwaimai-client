@@ -111,7 +111,7 @@
         let result;
       //短信登录
         if (loginWay){
-          if (!isRightPhone){
+          if (!this.isRightPhone){
             return MessageBox.alert("请输入手机号或者邮箱");
           } else if (!/^\d{6}$/.test(code)){
             return MessageBox.alert("请输入验证码");
