@@ -18,3 +18,7 @@ export const reqPwdLogin = ({name, pwd, captcha}) => ajax(BASE + '/login_pwd', {
 export const reqSendCode = (phone) => ajax(BASE + '/sendcode', {phone})
 // [8、手机号验证码登陆](#8手机号验证码登陆)<br/>
 export const reqSmsLogin = (phone, code) => ajax(BASE + '/login_sms', {phone, code}, 'POST')
+//[9.根据会话获取用户信息]
+export const reqUserInfo =() => ajax(BASE + '/userinfo')
+//[10.用户登出]
+export const reqLogOut = () => ajax(BASE+'/logout')

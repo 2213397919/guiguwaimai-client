@@ -5,7 +5,9 @@
 import {
   reqAddress,
   reqShops,
-  reqCategorys
+  reqCategorys,
+  reqUserInfo,
+  reqLogOut
 } from '../api'
 
 import {
@@ -51,5 +53,14 @@ export default {
 //  同步保存到user
   saveUser({commit},user){
     commit(RECEIVE_USER,{user});
-  }
+  },
+//  异步获取当前用户的信息
+  async getUser({commit}){
+    const result = await reqUserInfo();
+    if (result.code === 0){
+      const user = result.data;
+      //提交mutation，修改用户信息。
+      commit(RECEIVE_USER,{user})
+    }
+  },
 }
