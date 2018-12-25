@@ -18,6 +18,7 @@ export default function ajax (url,data={},method='GET') {
       .then(response =>{
         //  请求成功时
         resolve(response.data);
+        // console.log(response.data)
       })
       .catch(error =>{
         reject("请求失败"+error);

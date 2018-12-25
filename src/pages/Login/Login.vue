@@ -98,7 +98,7 @@
         }else {
           //验证码短信发送失败。
           // 停止计时
-          this.computeTime = 0
+          this.time = 0
           MessageBox.alert(result.msg)
         }
       },

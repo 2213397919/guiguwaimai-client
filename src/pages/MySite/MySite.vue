@@ -50,7 +50,11 @@
       this.$store.dispatch('getFoods');
     },
     computed: {
-      ...mapState(['address', 'categorys']),
+      ...mapState({
+        address: state => state.mySite.address,
+        categorys: state => state.mySite.categorys,
+        user: state => state.user.user
+      }),
       categorysArr () {
         const {categorys} = this;
         // 二维数组
