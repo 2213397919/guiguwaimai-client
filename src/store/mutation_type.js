@@ -7,3 +7,6 @@ export const RECEIVE_CATEGORYS = 'receive_categorys'; // 接收分类数组
 export const RECEIVE_SHOPS = 'receive_shops'; // 接收商家数组
 export const RECEIVE_USER = 'receive_user';//保存用户个人信息
 export const RESET_USER = 'reset_user';//退出，清除用户信息。
+export const GET_INFO = 'get_info';//获取商家信息
+export const GET_RATINGS = 'get_ratings';//获取评价
+export const GET_GOODS = 'get_goods';//获取食物，点餐

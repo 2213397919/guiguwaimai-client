@@ -2,11 +2,12 @@
   <section class="msite">
     <!--首页头部-->
     <NavHeader :title="address.name || '正在请求中...'">
-      <span class="header_search" slot="left">
+      <span class="header_search" slot="left" @click="$router.replace('/search')">
         <i class="iconfont icon-sousuo"></i>
       </span>
       <span class="header_login" slot="right">
-        <span class="header_login_text">登录|注册</span>
+        <span class="header_login_text" v-if="!user._id" @click="$router.push('/login')">登录|注册</span>
+        <i class="iconfont icon-person" v-else @click="$router.push('/userinfo')"></i>
       </span>
     </NavHeader>
     <!--首页导航-->
@@ -140,6 +141,7 @@
       top-border-1px(#e4e4e4)
       margin-top 10px
       background #fff
+      z-index -1
       .shop_header
         padding 10px 10px 0
         .shop_icon

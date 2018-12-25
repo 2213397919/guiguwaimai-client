@@ -3,8 +3,8 @@ vuex最核心的管理对象模块
  */
 import Vue from 'vue';
 import Vuex from 'vuex';
-import actions from './actions';
-import getters from './getters';
+// import actions from './actions';
+// import getters from './getters';
 import mySite from './modules/mysite'
 import user from './modules/user'
 //声明使用插件

@@ -22,3 +22,9 @@ export const reqSmsLogin = (phone, code) => ajax(BASE + '/login_sms', {phone, co
 export const reqUserInfo =() => ajax(BASE + '/userinfo')
 //[10.用户登出]
 export const reqLogOut = () => ajax(BASE+'/logout')
+//mock--info
+export const reqInfo = () =>ajax('/info');
+//mock--rating
+export const reqRating = () =>ajax('/rating');
+//mock--googs
+export const reqGoods = () =>ajax('/goods');
