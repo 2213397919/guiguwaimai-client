@@ -26,11 +26,12 @@ const actions = {
       commit(GET_INFO,{info})
     }
   },
-  async getGoods({commit}){
+  async getGoods({commit},cb){
     const result = await reqGoods();
     if (result.code === 0){
       const goods = result.data;
       commit(GET_GOODS,{goods})
+      typeof cb === 'function' && cb();
     }
   },
   async getRating({commit}){

@@ -47,6 +47,7 @@
 
 <script>
   import {mapState} from 'vuex';
+  import  BScroll from 'better-scroll';
   export default {
     name: 'ShopGoods',
     computed: {
@@ -55,7 +56,19 @@
       })
     },
     mounted() {
-      this.$store.dispatch('getGoods')
+      //为了兼容老版本
+      //新版本new BScroll(".menu-wrapper");
+      this.$store.dispatch('getGoods',()=>{
+       this.$nextTick(()=>{
+         this._BScrollInit();
+       })
+      })
+    },
+    methods:{
+      _BScrollInit(){
+        new BScroll(".menu-wrapper");
+        new BScroll(".foods-wrapper");
+      },
     }
   }
 </script>
