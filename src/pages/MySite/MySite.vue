@@ -141,7 +141,6 @@
       top-border-1px(#e4e4e4)
       margin-top 10px
       background #fff
-      z-index -1
       .shop_header
         padding 10px 10px 0
         .shop_icon

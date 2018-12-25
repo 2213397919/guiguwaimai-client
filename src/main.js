@@ -5,6 +5,8 @@ import NavHeader from './components/NavHeader/NavHeader'
 import Star from './components/Star/Star'
 import store from './store/store'
 import {Button} from 'mint-ui'
+//使用mock接口
+import mockServer from './mock/mockServer'
 
 //全局注册组件
 Vue.component('NavHeader', NavHeader)

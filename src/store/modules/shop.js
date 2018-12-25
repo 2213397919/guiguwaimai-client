@@ -20,6 +20,7 @@ const mutations ={
 const actions = {
   async getInfo({commit}){
     const result = await reqInfo();
+    // console.log(result)
     if (result.code === 0){
       const info = result.data;
       commit(GET_INFO,{info})

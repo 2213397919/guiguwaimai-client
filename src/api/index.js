@@ -25,6 +25,6 @@ export const reqLogOut = () => ajax(BASE+'/logout')
 //mock--info
 export const reqInfo = () =>ajax('/info');
 //mock--rating
-export const reqRating = () =>ajax('/rating');
-//mock--googs
+export const reqRating = () =>ajax('/ratings');
+//mock--goods
 export const reqGoods = () =>ajax('/goods');
