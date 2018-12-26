@@ -3,9 +3,10 @@ import {GET_GOODS,GET_RATINGS,GET_INFO,ADD_COUNT,REDUCE_COUNT} from '../mutation
 import {reqGoods,reqInfo,reqRating} from '../../api'
 
 const state = {
-  info:{},
-  goods:[],
-  ratings:[]
+  info:{}, //商家信息
+  goods:[], //商品列表
+  ratings:[],//评论
+  shopping:[] //购物
 }
 const mutations ={
   [GET_GOODS](state,{goods}) {
@@ -21,6 +22,7 @@ const mutations ={
   [ADD_COUNT](state,{food}) {
    if (!food.count){
      Vue.set(food,'count',1);
+     state.shopping.push(food)
    } else {
      food.count++;
    }
@@ -28,6 +30,10 @@ const mutations ={
   [REDUCE_COUNT](state,{food}) {
    if (food.count>0){
      food.count--;
+     if (food.count === 0 ){
+     //  从shopping中移出food
+       state.shopping.splice(state.shopping.indexOf(food),1);
+     }
    }
   }
 }
@@ -68,6 +74,12 @@ const actions = {
   }
 }
 const getters ={
+  totalCount(state){
+    return state.shopping.reduce((pre,food)=> pre + food.count,0);
+  },
+  totalPrice(state){
+    return state.shopping.reduce((pre,food)=> pre + food.count * food.price,0);
+  }
 }
 export default {
   state,
