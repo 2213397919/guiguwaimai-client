@@ -2,8 +2,8 @@
   <div>
     <div class="goods">
       <div class="menu-wrapper">
-        <ul>
-          <li class="menu-item current" v-for="(good,index) in goods":key="index">
+        <ul ref="leftUI">
+          <li class="menu-item" v-for="(good,index) in goods":key="index"  :class="{current: currentIndex === index}"  @click="clickItem(index)">
             <span class="text bottom-border-1px">
                <img class="icon" :src="good.icon" v-if="good.icon">
               {{good.name}}
@@ -13,7 +13,7 @@
       </div>
 
       <div class="foods-wrapper">
-        <ul>
+        <ul ref="rightUI">
           <li class="food-list-hook" v-for="(good,index) in goods" :key="index">
             <h1 class="title">{{good.name}}</h1>
             <ul>
@@ -50,28 +50,85 @@
   import  BScroll from 'better-scroll';
   export default {
     name: 'ShopGoods',
+    data(){
+      return {
+        scrollY: 0, // 右侧列表滑动的Y轴坐标  ==> 右侧滑动过程中不断改变
+        tops: [], // 右侧所有分类li的距离顶部的值  ==> 在列表第一次显示之后统计一次就可以(后面就不变了)
+      }
+    },
     computed: {
       ...mapState({
         goods: state => state.shop.goods,
-      })
+      }),
+      //获取当前分类的下标
+      currentIndex(){
+        //获取到状态
+        const {scrollY,tops} = this
+        //找到满足条件的下标返回，与class里面的index比较。
+         const index = tops.findIndex((top,index) =>{
+          // scrollY在[top, nextTop)区间内
+          return scrollY >= top && scrollY<tops[index+1];
+        })
+        if (index != this.index && this.leftScroll){
+        //  保存新的index
+          this.index = index
+          const li = this.$refs.leftUI.children[index];
+          this.leftScroll.scrollToElement(li,300)
+        }
+        return index;
+      }
     },
+
     mounted() {
       //为了兼容老版本
       //新版本new BScroll(".menu-wrapper");
       this.$store.dispatch('getGoods',()=>{
        this.$nextTick(()=>{
          this._BScrollInit();
+         this._initTops();
        })
       })
     },
     methods:{
       _BScrollInit(){
-        new BScroll(".menu-wrapper",{
+        this.leftScroll = new BScroll(".menu-wrapper",{
           click:true
         });
-        new BScroll(".foods-wrapper",{
-          click:true
+        this.rightScroll = new BScroll(".foods-wrapper",{
+          click:true,
+          probeType: 1, // 非实时(每隔一定时间才) ,触摸
         });
+        //绑定右侧滑动的时间监听。
+        this.rightScroll.on('scroll',(x,y)=>{
+        //  更新状态
+          this.scrollY = Math.abs(y)
+        })
+        // 监视右侧列表滑动结束的时间监听
+        this.rightScroll.on('scrollEnd', ({x, y}) => {
+          this.scrollY = Math.abs(y)
+        })
+      },
+      //收集每一个li的高度,存储在tops里面。
+      _initTops(){
+        const tops = [];
+        let top = 0;
+        tops.push(top);
+        const lis = this.$refs.rightUI.children;
+        //将伪数组转换成真数组
+        Array.prototype.slice.call(lis).forEach(li =>{
+          top += li.clientHeight;
+          tops.push(top);
+        })
+      //  更新状态
+        this.tops = tops;
+      },
+    //  点击了某个分类项
+      clickItem(index){
+        const y = -this.tops[index]
+        //立即更新目标坐标，保存到scroll
+        this.scrollY = Math.abs(y);
+        // 让右侧列表滑动到对应位置
+        this.rightScroll.scrollTo(0,y,300)
       }
     },
   }

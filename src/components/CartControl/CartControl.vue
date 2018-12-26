@@ -40,7 +40,7 @@
       padding 6px
       line-height 24px
       font-size 24px
-      color green
+      color #02a774
       &.move-enter-active, &.move-leave-active
         transition all .5s
       &.move-enter, &.move-leave-to
@@ -60,5 +60,5 @@
       padding: 6px
       line-height: 24px
       font-size: 24px
-      color green
+      color #02a774
 </style>
