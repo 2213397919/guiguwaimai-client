@@ -14,10 +14,10 @@
 
       <div class="foods-wrapper">
         <ul ref="rightUI">
-          <li class="food-list-hook" v-for="(good,index) in goods" :key="index">
+          <li class="food-list-hook" v-for="(good,index) in goods" :key="index" >
             <h1 class="title">{{good.name}}</h1>
             <ul>
-              <li class="food-item bottom-border-1px" v-for="(food,index) in good.foods" :key="index">
+              <li class="food-item bottom-border-1px" v-for="(food,index) in good.foods" :key="index" @click="isShow(food)">
                 <div class="icon">
                   <img width="57" height="57"
                        :src="food.image">
@@ -42,18 +42,21 @@
         </ul>
       </div>
     </div>
+    <Food :food="food" ref="food"/>
   </div>
 </template>
 
 <script>
   import {mapState} from 'vuex';
   import  BScroll from 'better-scroll';
+  import Food from '../../../components/Food/Food'
   export default {
     name: 'ShopGoods',
     data(){
       return {
         scrollY: 0, // 右侧列表滑动的Y轴坐标  ==> 右侧滑动过程中不断改变
         tops: [], // 右侧所有分类li的距离顶部的值  ==> 在列表第一次显示之后统计一次就可以(后面就不变了)
+        food: {},
       }
     },
     computed: {
@@ -72,6 +75,7 @@
         if (index != this.index && this.leftScroll){
         //  保存新的index
           this.index = index
+          // 当currentIndex发生改变时,将左侧列表进行编码滑动(尽量让当前分类滑动到最上面)
           const li = this.$refs.leftUI.children[index];
           this.leftScroll.scrollToElement(li,300)
         }
@@ -129,8 +133,16 @@
         this.scrollY = Math.abs(y);
         // 让右侧列表滑动到对应位置
         this.rightScroll.scrollTo(0,y,300)
+      },
+      isShow(food){
+        //更新food
+        this.food = food;
+        this.$refs.food.toggleShow();
       }
     },
+    components: {
+      Food
+    }
   }
 </script>
 
