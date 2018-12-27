@@ -108,7 +108,7 @@
         if (this.totalCount>0){
           this.isShow = !this.isShow;
         }
-      }
+      },
     }
   }
 </script>
