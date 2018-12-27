@@ -19,6 +19,8 @@ Vue.component('Star', Star)
 Vue.component(Button.name,Button);
 Vue.component('CartControl',CartControl)
 Vue.component('Split',Split)
+//将store挂载到Vue
+Vue.store = store;
 //内部定义一个全局指令
 Vue.use(vueLazyLoad,{
   loading
