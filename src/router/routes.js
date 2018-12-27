@@ -1,8 +1,17 @@
-//
-import MySite from '../pages/MySite/MySite'
-import Order from '../pages/Order/Order'
-import Search from '../pages/Search/Search'
-import Profile from '../pages/Profile/Profile'
+//定义路由
+// import MySite from '../pages/MySite/MySite'
+// import Order from '../pages/Order/Order'
+// import Search from '../pages/Search/Search'
+// import Profile from '../pages/Profile/Profile'
+
+//路由组件懒加载
+//通过import（）加载的模块会被单独打包。（单独的js文件：code split）
+const MySite = () => import('../pages/MySite/MySite.vue')
+const Order = () => import('../pages/Order/Order.vue')
+const Search = () => import('../pages/Search/Search.vue')
+const Profile = () => import('../pages/Profile/Profile.vue')
+
+
 import Login from '../pages/Login/Login'
 import Shop from '../pages/Shop/Shop'
 import ShopInfo from '../pages/Shop/ShopInfo/ShopInfo'
