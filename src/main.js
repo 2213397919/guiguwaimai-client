@@ -9,6 +9,7 @@ import CartControl from './components/CartControl/CartControl'
 import Split from './components/Split/Split'
 //使用mock接口
 import mockServer from './mock/mockServer'
+import './filters/moment'
 
 //全局注册组件
 Vue.component('NavHeader', NavHeader)

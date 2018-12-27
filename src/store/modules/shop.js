@@ -57,11 +57,12 @@ const actions = {
     }
   },
   //评价
-  async getRating({commit}){
+  async getRatings({commit},cb){
     const result = await reqRating();
     if (result.code === 0){
       const ratings = result.data;
-      commit(GET_RATINGS,{ratings})
+      commit(GET_RATINGS,{ratings});
+      typeof cb === 'function' && cb();
     }
   },
   //更新数量
@@ -79,6 +80,17 @@ const getters ={
   },
   totalPrice(state){
     return state.shopping.reduce((pre,food)=> pre + food.count * food.price,0);
+  },
+  totalRatingCount (state) {
+    return state.ratings.length
+  },
+
+  positiveRatingCount (state) {
+    return state.ratings.reduce((pre, rating) => pre + (rating.rateType===0 ? 1 : 0), 0)
+  },
+
+  negativeRatingCount (state, getters) {
+    return getters.totalRatingCount - getters.positiveRatingCount
   }
 }
 export default {
