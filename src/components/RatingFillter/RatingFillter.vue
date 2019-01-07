@@ -11,7 +11,7 @@
         吐槽<span class="count">{{negativeRatingCount}}</span>
       </span>
     </div>
-    <div class="switch" :class="{on:onlyContent}">
+    <div class="switch" :class="{on:onlyContent}"  @click="setOnlyContent">
       <span class="iconfont icon-check_circle"></span>
       <span class="text">只看有内容的评价</span>
     </div>
@@ -24,7 +24,7 @@
     name: 'RatingFillter',
     props:{
       selectType: Number,// 选择的类型: 0: 满意, 1: 不满意, 2: 全部
-      onlyContent: true,
+      onlyContent: false,
     },
     computed: {
       ...mapGetters(['totalRatingCount','positiveRatingCount','negativeRatingCount'])

@@ -5,7 +5,7 @@
  */
 import ajax from './ajax'
 const BASE = '/api'  // 开发环境下需要使用代理帮我们转发请求
-
+// const BASE = ''  // 生产环境打包
 // [1、根据经纬度获取位置详情](#1根据经纬度获取位置详情)<br/>
 export const reqAddress = (longitude, latitude) => ajax(BASE + `/position/${latitude},${longitude}`)
 // [2、获取食品分类列表](#2获取食品分类列表)<br/>
